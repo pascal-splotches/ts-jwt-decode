@@ -1,0 +1,69 @@
+{
+  "name": "ts-jwt-decode",
+  "version": "0.1.0",
+  "description": "A TypeScript based JWT Token decoder with token verification",
+  "keywords": [
+    "ts",
+    "typescript",
+    "jwt",
+    "jwt-token",
+    "jwt-tokens"
+  ],
+  "repository": "git@github.com:pascal-splotches/ts-jwt-decode.git",
+  "author": "Pascal Scheepers <pascal@splotch.es>",
+  "license": "MIT",
+  "private": false,
+  "main": "dist/index.js",
+  "source": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "prebuild": "yarn run clean",
+    "build": "tsc --project tsconfig.json && yarn run cp:dts",
+    "cp:dts": "copyfiles -f ./src/**/*.d.ts dist",
+    "lint": "eslint '**/*.{js,ts}'",
+    "lint:fix": "yarn run lint -- --fix",
+    "lint:types": "tsc --noEmit",
+    "test": "jest --runInBand",
+    "test:coverage": "jest --runInBand --coverage",
+    "test:watch": "npm run test:coverage -- --watchAll",
+    "prepublishOnly": "npm run lint && npm run lint:types && npm test && npm run build"
+  },
+  "dependencies": {
+    "@types/jsrsasign": "^8.0.5",
+    "jsrsasign": "^9.1.6"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@types/jest": "^26.0.13",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
+    "copyfiles": "^2.3.0",
+    "eslint": "^7.8.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.4.2",
+    "jest-performance-testing": "^1.0.0",
+    "lint-staged": "^10.3.0",
+    "prettier": "^2.1.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.3.0",
+    "typescript": "^4.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn run lint:types && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "npm run lint:fix"
+    ],
+    "*.{md,json,yml}": [
+      "prettier --write"
+    ]
+  }
+}
